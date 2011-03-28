@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+    <title>Velcome</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        query = 'pretty lights';
+        api_url = '1.apishark.com/p:y3p001';
+        query_url = ' /searchSongs/';
+       /* $(document).ready(function () {
+           $.get(api_url+query_url, function(data) {
+               console.log(data);
+               alert('woot');
+           });
+        });*/
+        $(document).ready(function () {
+            $('.vote img').click(submitVote);
+        });
+        function submitVote(data){
+              $.ajax({
+                  type: 'POST',
+                  url: '/playthis',
+                  data: {test : 1},
+                  success: function(){alert('hi');},
+                  dataType: 'json'
+            });
+        }
+    </script>
+</head>
+<body>
+<h1>Current Songs:</h1>
+% for song in songs:
+    <div id="song">
+        <span class="song_name">
+            ${song.name}
+        </span>
+        <span class="song_artist">
+            ${song.artist}
+        </span>
+        <span class="vote" id="$(song.id)">
+            <img src="../resources/images/upboat.png" />
+        </span>
+    </div>
+% endfor
+<label for="search">Search for songs:</label><input type="text" name="search" />
+<input type="submit" value="search" />
+<div id ="search_results">
+
+    
+</div>
+</body>
+</html>
