@@ -18,6 +18,8 @@
         });*/
         $(document).ready(function () {
             $('.vote img').click(submitVote);
+            var test = '[{"name":"hot like sauce", "artist" : "pretty lightS", "votes" : "1"}]';
+            parseSongs(test,"#playing")
         });
         function submitVote(data){
               $.ajax({
@@ -28,23 +30,31 @@
                   dataType: 'json'
             });
         }
+        function parseSongs(jsondata, appendID){
+            var songs = $.parseJSON(jsondata);
+            console.log(songs)
+            for (song in songs){
+                console.log(song.name);
+                var container = $('<div id="song"></div>');
+                var name = $('<span class="song_name"></span>');
+                var artist = $('<span class="song_artist"></span>');
+                var votes = $('<span class="votes"></span>');
+                $(name).html(song.name);
+                $(artist).html(song.artist);
+                $(votes).html(song.votes);
+                $(container).append(name).append(artist).append(votes)
+                console.log(container);
+                $(appendID).append(container);
+            }
+
+
+        }
     </script>
 </head>
 <body>
 <h1>Current Songs:</h1>
-% for song in songs:
-    <div id="song">
-        <span class="song_name">
-            ${song.name}
-        </span>
-        <span class="song_artist">
-            ${song.artist}
-        </span>
-        <span class="vote" id="$(song.id)">
-            <img src="../resources/images/upboat.png" />
-        </span>
-    </div>
-% endfor
+<div id="playing">
+</div>
 <label for="search">Search for songs:</label><input type="text" name="search" />
 <input type="submit" value="search" />
 <div id ="search_results">

@@ -13,7 +13,7 @@ class Song:
         self.name = song
         self.artist = artist
         self.album = 'album'
-        self.length = 10
+        self.votes = 0
 
 def encode_song(obj):
     if isinstance(obj, Song):
