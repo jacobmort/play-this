@@ -18,10 +18,10 @@
         });*/
         $(document).ready(function () {
             var test = '[{"name":"hot like sauce", "artist" : "pretty lightS", "votes" : "1"}]';
-            var current_p = ${songs};
-            console.log(current_p);
+            //var current_p = ${songs};
+            //console.log(current_p);
             console.log(test);
-            parseSongs(current_p,"#playing")
+            parseSongs(test,"#playing");
             $('.vote img').click(submitVote);
             
         });
@@ -39,14 +39,15 @@
             console.log(songs)
             $.each(songs, function(i, song) {
                 console.log(song["name"]);
-                var container = $('<div id="song"></div>');
+                var container = $('<div class="song"></div>');
                 var name = $('<span class="song_name"></span>');
                 var artist = $('<span class="song_artist"></span>');
                 var votes = $('<span class="votes"></span>');
+                var img = $('<img src="/resources/images/upboat.png" />');
                 $(name).html(song.name);
                 $(artist).html(song.artist);
                 $(votes).html(song.votes);
-                $(container).append(name).append(artist).append(votes)
+                $(container).append(name).append(artist).append(votes).append(img);
                 console.log(container);
                 $(appendID).append(container);
             });
