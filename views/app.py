@@ -5,7 +5,9 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from mako.template import Template
 from mako.runtime import Context
 import md5
-import urllib.request
+import urllib2
+
+
 
 API_URL = '1.apishark.com/p:y3p001'
 
@@ -44,7 +46,7 @@ def gsAuth():
     pw = 'kflip402'
     token = md5.new(username + md5.new(pw).digest()).digest()
     req_url = url + '/' + username + '/' + token
-    response = urllib.request.urlopen('http://python.org/')
+    response = urllib2.urlopen('http://www.python.org')
     html = response.read()
     return html
 

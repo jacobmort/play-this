@@ -44,10 +44,10 @@
       <file leaf-file-name="app.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="38" selection-start="1740" selection-end="1740" vertical-scroll-proportion="0.0">
+            <state line="63" column="38" selection-start="1731" selection-end="1731" vertical-scroll-proportion="0.0">
               <folding>
-                <marker date="1301724587000" expanded="true" signature="1807:2194" placeholder="..." />
-                <marker date="1301724587000" expanded="true" signature="1827:2194" placeholder="..." />
+                <marker date="1301725080000" expanded="true" signature="1798:2185" placeholder="..." />
+                <marker date="1301725080000" expanded="true" signature="1818:2185" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -401,10 +401,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="38" selection-start="1740" selection-end="1740" vertical-scroll-proportion="0.0">
+        <state line="63" column="38" selection-start="1731" selection-end="1731" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1301724587000" expanded="true" signature="1807:2194" placeholder="..." />
-            <marker date="1301724587000" expanded="true" signature="1827:2194" placeholder="..." />
+            <marker date="1301725080000" expanded="true" signature="1798:2185" placeholder="..." />
+            <marker date="1301725080000" expanded="true" signature="1818:2185" placeholder="..." />
           </folding>
         </state>
       </provider>
