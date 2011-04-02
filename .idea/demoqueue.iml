@@ -4,7 +4,7 @@
     <facet type="google-appengine-python" name="Google App Engine (Python)">
       <configuration>
         <option name="rootFolder" value="$MODULE_DIR$" />
-        <option name="sdkFolder" value="C:\Program Files (x86)\Google\google_appengine" />
+        <option name="sdkFolder" value="/Applications/GoogleAppEngineLauncher.app/Contents/Resources/GoogleAppEngine-default.bundle/Contents/Resources/google_appengine" />
         <option name="templatesFolder" value="$MODULE_DIR$/templates" />
         <option name="email" value="pokemort@gmail.com" />
         <option name="gp" value="dfd9dfdedfcbdfd8dfd9dfdedfdfdfccdfccdf98df9edf9a" />
@@ -12,7 +12,9 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Google App Engine SDK" level="project" />

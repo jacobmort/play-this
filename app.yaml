@@ -7,5 +7,6 @@ handlers:
 - url: /resources
   static_dir: resources
 
+
 - url: /.*
   script: views/app.py
