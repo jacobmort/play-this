@@ -2,14 +2,21 @@ import cgi
 from google.appengine.ext import webapp
 from google.appengine.api import users
 from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.api import memcache
 from mako.template import Template
 from mako.runtime import Context
+import simplejson
 import md5
-import urllib2
+import urllib
+import logging
+
+LOG_FILENAME = '/Users/Jacob/projects/playthis/play-this/demoque.log'
+logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
 
 
 
-API_URL = '1.apishark.com/p:y3p001'
+
+API_URL = 'http://1.apishark.com/p:y3p001'
 
 class Song:
     def __init__(self,id,song,artist):
@@ -42,38 +49,81 @@ def jsonifySongs(songs):
 
 def gsAuth():
     url = API_URL + '/genGSAuth/'
-    username = 'pokemort@gmail.com'
+    username = 'ubien'
     pw = 'kflip402'
-    token = md5.new(username + md5.new(pw).digest()).digest()
-    req_url = url + '/' + username + '/' + token
-    response = urllib2.urlopen('http://www.python.org')
-    html = response.read()
-    return html
+    token = md5.new(username + md5.new(pw).hexdigest()).hexdigest()
+    params = urllib.urlencode({'username': username, 'token': token})
+    f = urllib.urlopen(url, params)
+    #auth_resp = f.read()
+    result = simplejson.load(f)
+    token = -1
+    if result['Success'] == True:
+        token = result['Result']
+    return token
 
-def getPlaylistSongs():
-    pass
+def getPlaylistID(gsauth,playlistName):
+    url = API_URL + '/getUserPlaylistsEx/'
+    type = "gsauth"
+    data = gsauth
+    url += type + '/' + data
+    f = urllib.urlopen(url)
+    result = simplejson.load(f)
+    if result['Success'] == False:
+        return -1
+    pl_id = -1
+    result_list = result['Result']
+    for i in range(0,len(result_list)):
+        if result_list[i]['Name'].find(playlistName) != -1:
+            pl_id = result_list[i]['PlaylistID']
+    return result_list
+    if pl_id == -1:
+        return -2
+    return pl_id
+
+def getPlaylistSongs(playlist_id):
+    url = API_URL + '/getPlaylistInfo/'
+    url += playlist_id
+    f = urllib.urlopen(url)
+    result = simplejson.load(f)
+    if result['Success'] == False:
+        return -1
+    return result['Result']['Songs']
+
+def addSong(gsauth,playlist_id,song_id):
+
     
 class Home(webapp.RequestHandler):
     def get(self):
+        logging.debug('This message should go to the log file')
         mytemplate = Template(filename='../templates/index.html')
         songs = []
         songs.append(Song('1','fuck you','ceelo green'))
         songs.append(Song('2','good vibrations','beach boys'))
         songs.append(Song('3','hot like sauce','Pretty Lights'))
-        print gsAuth()
-        print mytemplate.render(songs=jsonifySongs(songs))
+        token = memcache.get("token")
+        if token is None:
+            token=gsAuth()
+        if token == -1:
+            print mytemplate.render(error="omg login no worky")
+        else:
+            memcache.add("token", token, 1000)
+            #playlist_id = getPlaylistID(token,"play-this")
+            playlist_id = '51284718'
+            if (playlist_id == -2):
+                print mytemplate.render(error='cant find playlist:play-this')
+            else:
+                playlist_songs = getPlaylistSongs(playlist_id)
+                if playlist_songs == -1:
+                    print mytemplate.render(error='get songs for playlist'+str(playlist_id))
+
+            print mytemplate.render(songs=jsonifySongs(songs), playlist=playlist_songs)
 
     
 class VoteAction(webapp.RequestHandler):
     def post(self):
-        results = self.request.get('searchquery')
-        mytemplate = Template(filename='../templates/index.html')
-        songs = dict()
+        results = self.request.get('SongID')
+        self.response.out.write(results)
 
-        songs.update(s1=Song('2','good vibrations','beach boys'))
-        songs.update(s2=Song('3','hot like sauce','Pretty Lights'))
-        songs.update(s3=Song('1','fuck you','ceelo green'))
-        self.response.out.write(jsonifySongs(songs))
 
 class SearchSongs(webapp.RequestHandler):
     def post(self):

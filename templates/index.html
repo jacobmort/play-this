@@ -9,22 +9,23 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            var current_p = ${songs};
-            console.log(current_p);
-            parseSongs(current_p,"#playing");
+            var fread = ${playlist};
+            console.log(fread);
+            //console.log(current_p);
+            parseSongs(fread,"#playing");
             $('.upboat').click(submitVote);
             $('#searchbox').submit(searchSongs);
             
         });
         function submitVote(data){
-           /*   $.ajax({
+            console.log(data);
+              $.ajax({
                   type: 'POST',
                   url: '/playthis',
-                  data: {test : 1},
-                  success: function(){alert('hi');},
+                  data: {"SongID" : data.currentTarget.id},
+                  success: function(data){alert('song added');console.log(data);},
                   dataType: 'json'
-            });*/
-            console.log(data);
+            });
         }
         function searchSongs(data){
             $.ajax({
@@ -43,11 +44,12 @@
             return false;
         }
         function parseSongs(songs, appendID){
-            console.log(songs);
-            //console.log(songs.Result);
+            //console.log(songs);
             var songtable = $('<table></table>').append('<th>Song</th><th>Artist</th><th>upvote</th>');
+            if (songs.length == 0)
+                $(songtable).append("<tr><td>No Songs</td></tr>")
             $.each(songs, function(i, song) {
-                console.log(song.SongName);
+                //console.log(song.SongName);
                 var row = $('<tr class="song"></tr>');
                 var name = $('<td class="song_name"></td>');
                 var artist = $('<td class="song_artist"></td>');
@@ -67,7 +69,10 @@
     </script>
 </head>
 <body>
-<h1>Current Songs:</h1>
+% if error:
+    <h1>${error}</h1>
+% else:
+<h1>Playing Songs:</h1>
 <div id="playing">
 </div>
 <form action="#" name="searchbox" id="searchbox">
@@ -76,5 +81,6 @@
 </form>
 <div id ="search_results">
 </div>
+% endif
 </body>
 </html>

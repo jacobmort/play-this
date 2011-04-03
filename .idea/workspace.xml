@@ -26,7 +26,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="30" selection-start="377" selection-end="377" vertical-scroll-proportion="0.32934132">
+            <state line="10" column="39" selection-start="346" selection-end="346" vertical-scroll-proportion="0.2994012">
               <folding />
             </state>
           </provider>
@@ -44,10 +44,16 @@
       <file leaf-file-name="app.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="38" selection-start="1731" selection-end="1731" vertical-scroll-proportion="0.0">
+            <state line="118" column="12" selection-start="3536" selection-end="3536" vertical-scroll-proportion="0.0">
               <folding>
-                <marker date="1301725080000" expanded="true" signature="1798:2185" placeholder="..." />
-                <marker date="1301725080000" expanded="true" signature="1818:2185" placeholder="..." />
+                <marker date="1301806124000" expanded="true" signature="509:931" placeholder="..." />
+                <marker date="1301806124000" expanded="true" signature="548:931" placeholder="..." />
+                <marker date="1301806124000" expanded="true" signature="701:931" placeholder="..." />
+                <marker date="1301806124000" expanded="true" signature="2503:3532" placeholder="..." />
+                <marker date="1301806124000" expanded="true" signature="2586:3532" placeholder="..." />
+                <marker date="1301806124000" expanded="true" signature="3658:3756" placeholder="..." />
+                <marker date="1301806124000" expanded="true" signature="3678:3756" placeholder="..." />
+                <marker date="1301806124000" expanded="true" signature="14940:14970" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -401,10 +407,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="38" selection-start="1731" selection-end="1731" vertical-scroll-proportion="0.0">
+        <state line="118" column="12" selection-start="3536" selection-end="3536" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1301725080000" expanded="true" signature="1798:2185" placeholder="..." />
-            <marker date="1301725080000" expanded="true" signature="1818:2185" placeholder="..." />
+            <marker date="1301806124000" expanded="true" signature="509:931" placeholder="..." />
+            <marker date="1301806124000" expanded="true" signature="548:931" placeholder="..." />
+            <marker date="1301806124000" expanded="true" signature="701:931" placeholder="..." />
+            <marker date="1301806124000" expanded="true" signature="2503:3532" placeholder="..." />
+            <marker date="1301806124000" expanded="true" signature="2586:3532" placeholder="..." />
+            <marker date="1301806124000" expanded="true" signature="3658:3756" placeholder="..." />
+            <marker date="1301806124000" expanded="true" signature="3678:3756" placeholder="..." />
+            <marker date="1301806124000" expanded="true" signature="14940:14970" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -416,7 +428,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="30" selection-start="377" selection-end="377" vertical-scroll-proportion="0.32934132">
+        <state line="10" column="39" selection-start="346" selection-end="346" vertical-scroll-proportion="0.2994012">
           <folding />
         </state>
       </provider>
