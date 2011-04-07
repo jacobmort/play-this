@@ -5,27 +5,30 @@
 <head>
     <title>Velcome</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-
     <script type="text/javascript">
 
         $(document).ready(function () {
-            var fread = ${playlist};
-            console.log(fread);
+            //var fread = ${playlist};
+            //console.log(fread);
             //console.log(current_p);
-            parseSongs(fread,"#playing");
+            //parseSongs(fread,"#playing");
             $('.upboat').click(submitVote);
             $('#searchbox').submit(searchSongs);
+
             
         });
         function submitVote(data){
             console.log(data);
-              $.ajax({
+            var rowid= currentTarget.id;
+            var songid = $("#row"+rowid).closest('tr').next().find(".artist");
+            console.log(songid);
+           /*   $.ajax({
                   type: 'POST',
                   url: '/playthis',
-                  data: {"SongID" : data.currentTarget.id},
+                  data: {"SongID" : data.currentTarget.id, "Artist" : data.parent},
                   success: function(data){alert('song added');console.log(data);},
                   dataType: 'json'
-            });
+            });*/
         }
         function searchSongs(data){
             $.ajax({
@@ -51,13 +54,14 @@
             $.each(songs, function(i, song) {
                 //console.log(song.SongName);
                 var row = $('<tr class="song"></tr>');
+                $(row).attr('id',song.SongID);
                 var name = $('<td class="song_name"></td>');
                 var artist = $('<td class="song_artist"></td>');
                 var votes = $('<td class="votes"></td>');
                 var img = $('<td class="upboat"><img src="../resources/images/upboat.png" /></td>');
                 $(name).html(song.SongName);
                 $(artist).html(song.ArtistName);
-                $(img).attr('id',song.SongID);
+                $(img).attr('id',"row"+i);
                 $(img).click(submitVote);
                 //$(votes).html(song.votes);
                 $(row).append(name).append(artist).append(votes).append(img);
@@ -81,6 +85,7 @@
 </form>
 <div id ="search_results">
 </div>
+
 % endif
 </body>
 </html>
