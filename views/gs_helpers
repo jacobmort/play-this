@@ -1,0 +1,51 @@
+def gsAuth():
+    url = API_URL + '/genGSAuth/'
+    username = 'ubien'
+    pw = 'kflip402'
+    token = md5.new(username + md5.new(pw).hexdigest()).hexdigest()
+    params = urllib.urlencode({'username': username, 'token': token})
+    f = urllib.urlopen(url, params)
+    #auth_resp = f.read()
+    result = simplejson.load(f)
+    token = -1
+    if result['Success'] == True:
+        token = result['Result']
+    return token
+
+def getPlaylistID(gsauth,playlistName):
+    url = API_URL + '/getUserPlaylistsEx/'
+    type = "gsauth"
+    data = gsauth
+    url += type + '/' + data
+    f = urllib.urlopen(url)
+    result = simplejson.load(f)
+    if result['Success'] == False:
+        return -1
+    pl_id = -1
+    result_list = result['Result']
+    for i in range(0,len(result_list)):
+        if result_list[i]['Name'].find(playlistName) != -1:
+            pl_id = result_list[i]['PlaylistID']
+    return result_list
+    if pl_id == -1:
+        return -2
+    return pl_id
+
+def getPlaylistSongs(playlist_id):
+    url = API_URL + '/getPlaylistInfo/'
+    url += playlist_id
+    f = urllib.urlopen(url)
+    result = simplejson.load(f)
+    if result['Success'] == False:
+        return -1
+    return result['Result']['Songs']
+
+def addSong(gsauth,playlist_id,song_id):
+    url = API_URL + ' /modifyPlaylist/'
+    params = urllib.urlencode({'GSAuth': gsauth, 'playlistID': playlist_id,'songIDs' : song_id })
+    f = urllib.urlopen(url,params)
+    result = simplejson.load(f)
+    return result
+    if result['Success'] == False:
+        return -1
+    return result

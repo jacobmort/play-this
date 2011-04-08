@@ -17,4 +17,4 @@ function getNextSong(){
 
 
 
-setTimeout(getNextSong, 120000);
+setInterval(getNextSong, 120000);
