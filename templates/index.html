@@ -7,14 +7,6 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            var fread = ${songs};
-            //console.log(fread);
-            //console.log(current_p);
-            parseSongs(fread.Result,"#playing",true);
-            $('#searchbox').submit(searchSongs);
-            
-        });
         function submitVote(){
             //console.log(data);
             var row = $(this).closest('tr');
@@ -80,6 +72,27 @@
             $(appendID).append(songtable);
             $(appendID+'.upboat').click(submitVote);
         }
+        function refresh(){
+            $.ajax({
+                  type: 'GET',
+                  url: '/refresh',
+                  data: {},
+                  success: function(data){
+                      var songs = $.parseJSON(data);
+                      parseSongs(songs.Result,'#playing', true);
+                  }
+
+            });
+        }
+        $(document).ready(function () {
+            var fread = ${songs};
+            //console.log(fread);
+            //console.log(current_p);
+            parseSongs(fread.Result,"#playing",true);
+            $('#searchbox').submit(searchSongs);
+            setInterval(refresh,15000);
+
+        });
     </script>
 </head>
 <body>
@@ -97,5 +110,6 @@
 </div>
 
 % endif
+<a href="../resources/js/gs_client_inject.js">Grooveshark Client JS</a>
 </body>
 </html>

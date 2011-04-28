@@ -72,20 +72,30 @@ class GetNext(webapp.RequestHandler):
     def get(self):
         q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
         song = q.fetch(1)
-        resp = ''
+        
         if song:
             resp='{"SongID" : "'+str(song[0].id)+'" }'
             song[0].delete()
         #resp = '{"SongID" : "26865284" }'
         self.response.headers['Content-Type'] = "application/json"
-        self.response.headers['callback'] = 'setNextSong'
+        #self.response.headers['callback'] = 'setNextSong'
         self.response.out.write('setNextSong('+simplejson.dumps(resp)+');')
+
+
+class Refresh(webapp.RequestHandler):
+    def get(self):
+        q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
+        songs = q.fetch(20)
+        resp = '{"Success":true,"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
+        self.response.out.write(resp)
+
         
 application = webapp.WSGIApplication(
                                      [('/', Home),
                                       ('/playthis', VoteAction),
                                      ('/searchthis', SearchSongs),
-                                     ('/getnext',GetNext)],
+                                     ('/getnext',GetNext),
+                                     ('/refresh', Refresh)],
                                      debug=True)
 def main():
     run_wsgi_app(application)
