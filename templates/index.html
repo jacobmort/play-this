@@ -25,8 +25,10 @@
                       console.log(songs);
                       if (songs.Success === false){
                         alert("You must wait "+songs.Result+" more minutes to vote again");
+                        updateRemaining(songs.Remain);
                       }else{
                         parseSongs(songs.Result,'#playing', true);
+                        updateRemaining(songs.Remain);
                       }
                   }
 
@@ -51,14 +53,14 @@
         function parseSongs(songs, appendID, votes){
             //console.log(songs);
 
-            var songtable = $('<table class="rounded-corner"></table>').append('<th scope="col" class="rounded-q1">Song</th><th scope="col" class="rounded-q1">Artist</th>');
+            var songtable = $('<table width="100%" class="rounded-corner"></table>').append('<th scope="col" class="rounded-q1">Song</th><th scope="col" class="rounded-q1">Artist</th>');
             if (votes){
                 $(songtable).attr('id',"playing");
             }
             if (votes){
                 songtable.append('<th scope="col" class="rounded-q1">Votes</th>');
             }
-            songtable.append('<th scope="col" class="rounded-q1">Upvote</th>');
+            songtable.append('<th scope="col" class="rounded-q1" id="remaining" width="55px;"></th>');
             if (songs.length == 0)
                 $(songtable).append("<tr><td>No Songs</td></tr>")
             $(appendID).children().remove();
@@ -69,7 +71,7 @@
                 var name = $('<td class="song_name"></td>');
                 var artist = $('<td class="song_artist"></td>');
                 var votes = $('<td class="votes"></td>');
-                var img = $('<td class="upboat"><img src="../resources/images/upboat.png" /></td>');
+                var img = $('<td align="center" class="upboat"><img  src="../resources/images/upboat.png" /></td>');
                 $(name).html(song.SongName);
                 $(artist).html(song.ArtistName);
                 $(img).attr('id',"row"+i);
@@ -98,11 +100,19 @@
                         };
                       //$.removeRow($(""), defaults);
                       parseSongs(songs.Result,'#playing', true);
+                      updateRemaining(songs.Remain);
                   }
 
             });
         }
+        function updateRemaining(time){
+            if (time === 0 ){
+                $("#remaining").html("Up Vote");
+            }else{
+                $("#remaining").html("Time to vote:"+time+" minutes");
+            }
 
+        }
 
 
         $(document).ready(function () {
@@ -110,6 +120,7 @@
             //console.log(fread);
             //console.log(current_p);
             parseSongs(fread.Result,"#playing",true);
+            updateRemaining(fread.Remain);
             $('#searchbox').submit(searchSongs);
             setInterval(refresh,15000);
 
@@ -119,18 +130,24 @@
 <body>
 % if error:
     <h1>${error}</h1>
-% else:
-<h1>Playing Songs:</h1>
-<div id="playing">
-</div>
-<form action="#" name="searchbox" id="searchbox">
-<label for="search">Search for songs:</label><input id="searchsongs" type="text" name="search" />
-<input type="submit" value="search" />
-</form>
-<div id ="search_results">
-</div>
-
 % endif
-<a href="../resources/js/gs_client_inject.js">Grooveshark Client JS</a>
+<h1>Democratic Playlist: <a href="#">hear-this.appspot.com</a> to vote</h1>
+<div id="container">
+    <div id="left-col">
+        <h2>Songs playing next:</h2>
+        <div id="playing">
+        </div>
+        <a href="../resources/js/gs_client_inject.js">Grooveshark Client JS</a>
+    </div>
+    <div id="right-col">
+        <form action="#" name="searchbox" id="searchbox">
+            <label for="search">Search for songs:</label><input id="searchsongs" type="text" name="search" />
+            <input type="submit" value="search" />
+        </form>
+        <h2>Search Results:</h2>
+        <div id ="search_results">
+        </div>
+    </div>
+</div>
 </body>
 </html>

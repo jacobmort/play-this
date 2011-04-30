@@ -1,16 +1,31 @@
-#song{width:600px;}
-
 body
 {
    	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
-    }
+}
+
+#container {
+    float:left;
+    width:100%;
+}
+
+#left-col {
+    float:left;
+    width:50%;
+}
+#right-col {
+    float:left;
+    width:50%;
+}
+
+td.upboat {
+	cursor: pointer;
+}
 .rounded-corner
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
 	margin: 10px;
-	width: 480px;
 	text-align: left;
 	border-collapse: collapse;
 }

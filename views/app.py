@@ -27,7 +27,13 @@ class Home(webapp.RequestHandler):
 #        song.put()
         q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
         songs = q.fetch(20)
-        resp = '{"Success":true,"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
+        session = get_current_session()
+        if session.is_active():
+            lastvote = session['lastvote']
+            remaining_time = MIN_BEWTWEEN_VOTES - ((datetime.now() - lastvote).seconds/60)
+        else:
+            remaining_time = 0
+        resp = '{"Success":true,"Remain":'+str(remaining_time)+',"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
         print mytemplate.render(songs=resp)
 
     
@@ -49,7 +55,7 @@ class VoteAction(webapp.RequestHandler):
         song.put()
         q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
         songs = q.fetch(20)
-        resp = '{"Success":true,"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
+        resp = '{"Success":true,"Remain":'+str(MIN_BEWTWEEN_VOTES)+',"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
         self.response.out.write(resp)
 
     def post(self):
@@ -72,7 +78,7 @@ class VoteAction(webapp.RequestHandler):
                     else: #not enough time passed
                         logging.info("not enough time")
                         wait = MIN_BEWTWEEN_VOTES - ((now - lastvote).seconds/60)
-                        resp = '{"Success":false,"Result":'+ simplejson.dumps(str(wait)) +'}'
+                        resp = '{"Success":false,"Remain":'+str(wait)+',"Result":'+ simplejson.dumps(str(wait)) +'}'
                         self.response.out.write(resp)
                 else: #hasn't voted with timestamp
                     logging.info("no prev vote time")
@@ -112,7 +118,17 @@ class Refresh(webapp.RequestHandler):
     def get(self):
         q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
         songs = q.fetch(20)
-        resp = '{"Success":true,"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
+
+        session = get_current_session()
+        if session.is_active():
+            lastvote = session['lastvote']
+            if lastvote > MIN_BEWTWEEN_VOTES:
+                remaining_time = 0
+            else:
+                remaining_time = MIN_BEWTWEEN_VOTES - ((datetime.now() - lastvote).seconds/60)
+        else:
+            remaining_time = 0
+        resp = '{"Success":true,"Remain":'+str(remaining_time)+',"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
         self.response.out.write(resp)
 
         
