@@ -1,22 +1,18 @@
-import cgi
 from google.appengine.ext import webapp
-from google.appengine.api import users
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
 from mako.template import Template
-from mako.runtime import Context
 from django.utils import simplejson
 from models.song import Song,jsonifySongs
-from operator import itemgetter, attrgetter
-import md5
+from gaesessions import get_current_session
+from datetime import datetime
 import urllib
 import logging
 
-LOG_FILENAME = '/Users/Jacob/projects/playthis/play-this/demoque.log'
-logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
-
 
 API_URL = 'http://1.apishark.com/p:y3p001'
+
+MIN_BEWTWEEN_VOTES = 5
 
 class Home(webapp.RequestHandler):
     def get(self):
@@ -36,27 +32,57 @@ class Home(webapp.RequestHandler):
 
     
 class VoteAction(webapp.RequestHandler):
-    def post(self):
+    def vote(self):
         SongID = self.request.POST.get('SongID');
-        Name = self.request.POST.get('Name');
-        Artist = self.request.POST.get('Artist');
         song = db.GqlQuery("SELECT * FROM Song where id = :1", int(SongID)).get()
         if song is not None:
             song.votes += 1
         else:
+            Name = self.request.POST.get('Name');
+            Artist = self.request.POST.get('Artist');
             song = Song(key_name=SongID,
                 id=int(SongID),
                 name=Name,
                 artist=Artist,
                 votes=1)
-            
+
         song.put()
-            
         q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
         songs = q.fetch(20)
         resp = '{"Success":true,"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
         self.response.out.write(resp)
 
+    def post(self):
+        session = get_current_session()
+        if session.is_active():
+            logging.info("active session")
+            seedvotes = session.get('seedvotes', 0)
+            if seedvotes > 0:
+                logging.info("seed votes present")
+                session['seedvotes'] = seedvotes - 1
+                self.vote()
+            else:
+                lastvote = session.get('lastvote', 0)
+                now = datetime.now()
+                if isinstance(lastvote,datetime) :
+                    logging.info("we have last vote")
+                    if ((now - lastvote).seconds)/60 >= MIN_BEWTWEEN_VOTES:
+                        session['lastvote'] = now
+                        self.vote()
+                    else: #not enough time passed
+                        logging.info("not enough time")
+                        wait = MIN_BEWTWEEN_VOTES - ((now - lastvote).seconds/60)
+                        resp = '{"Success":false,"Result":'+ simplejson.dumps(str(wait)) +'}'
+                        self.response.out.write(resp)
+                else: #hasn't voted with timestamp
+                    logging.info("no prev vote time")
+                    session['lastvote'] = now
+                    self.vote()
+        else: #new session
+            session['lastvote'] = datetime.now()
+            logging.info("no session")
+            session.regenerate_id()
+            self.vote()
 
 class SearchSongs(webapp.RequestHandler):
     def post(self):

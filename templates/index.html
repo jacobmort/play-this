@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Velcome</title>
+    <link href="../resources/css/playthis.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script type="text/javascript">
 
@@ -19,8 +20,14 @@
                   url: '/playthis',
                   data: {"SongID" : songid, "Artist" : artist, "Name" : name},
                   success: function(data){
+                      console.log(data);
                       var songs = $.parseJSON(data);
-                      parseSongs(songs.Result,'#playing', true);
+                      console.log(songs);
+                      if (songs.Success === false){
+                        alert("You must wait "+songs.Result+" more minutes to vote again");
+                      }else{
+                        parseSongs(songs.Result,'#playing', true);
+                      }
                   }
 
             });
@@ -32,7 +39,7 @@
                   url: '/searchthis',
                   data: {"search": $('#searchsongs').val()},
                   success: function(data){
-                    console.log(data);
+                    //console.log(data);
                     var songs = $.parseJSON(data);
                     parseSongs(songs.Result,"#search_results",true);
                   }
@@ -42,15 +49,19 @@
             return false;
         }
         function parseSongs(songs, appendID, votes){
-            console.log(songs);
-            $(appendID).children().remove();
-            var songtable = $('<table></table>').append('<th>Song</th><th>Artist</th>');
+            //console.log(songs);
+
+            var songtable = $('<table class="rounded-corner"></table>').append('<th scope="col" class="rounded-q1">Song</th><th scope="col" class="rounded-q1">Artist</th>');
             if (votes){
-                songtable.append('<th>Votes</th>');
+                $(songtable).attr('id',"playing");
             }
-            songtable.append('<th>Upvote</th>');
+            if (votes){
+                songtable.append('<th scope="col" class="rounded-q1">Votes</th>');
+            }
+            songtable.append('<th scope="col" class="rounded-q1">Upvote</th>');
             if (songs.length == 0)
                 $(songtable).append("<tr><td>No Songs</td></tr>")
+            $(appendID).children().remove();
             $.each(songs, function(i, song) {
                 //console.log(song.SongName);
                 var row = $('<tr class="song"></tr>');
@@ -79,11 +90,21 @@
                   data: {},
                   success: function(data){
                       var songs = $.parseJSON(data);
+                      defaults = {
+                            rowSpeed: 300,
+                            newRow: null,
+                            addTop: false,
+                            removeTop: true
+                        };
+                      //$.removeRow($(""), defaults);
                       parseSongs(songs.Result,'#playing', true);
                   }
 
             });
         }
+
+
+
         $(document).ready(function () {
             var fread = ${songs};
             //console.log(fread);
