@@ -5,6 +5,7 @@ from mako.template import Template
 from django.utils import simplejson
 from models.song import Song,jsonifySongs
 from gaesessions import get_current_session
+from views.BeautifulSoup import BeautifulSoup
 from datetime import datetime
 import urllib
 import logging
@@ -14,9 +15,11 @@ API_URL = 'http://1.apishark.com/p:y3p001'
 
 MIN_BEWTWEEN_VOTES = 5
 
+def strip_tags(user_input):
+    return ''.join(BeautifulSoup(user_input).findAll(text=True))
+
 class Home(webapp.RequestHandler):
     def get(self):
-        logging.debug('This message should go to the log file')
         mytemplate = Template(filename='../templates/index.html')
 #        song = Song(key_name='27392819',
 #                            id=27392819,
@@ -33,13 +36,13 @@ class Home(webapp.RequestHandler):
     
 class VoteAction(webapp.RequestHandler):
     def vote(self):
-        SongID = self.request.POST.get('SongID');
+        SongID = strip_tags(self.request.POST.get('SongID'));
         song = db.GqlQuery("SELECT * FROM Song where id = :1", int(SongID)).get()
         if song is not None:
             song.votes += 1
         else:
-            Name = self.request.POST.get('Name');
-            Artist = self.request.POST.get('Artist');
+            Name = strip_tags(self.request.POST.get('Name'));
+            Artist = strip_tags(self.request.POST.get('Artist'));
             song = Song(key_name=SongID,
                 id=int(SongID),
                 name=Name,
