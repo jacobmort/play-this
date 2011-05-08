@@ -32,10 +32,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="playthis.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="playthis.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/css/playthis.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="14" selection-start="741" selection-end="741" vertical-scroll-proportion="0.4041451">
+            <state line="60" column="14" selection-start="741" selection-end="741" vertical-scroll-proportion="-9.0">
               <folding />
             </state>
           </provider>
@@ -59,10 +59,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="160" column="0" selection-start="17785" selection-end="17785" vertical-scroll-proportion="-10.541667">
+            <state line="57" column="73" selection-start="2572" selection-end="2572" vertical-scroll-proportion="0.7394366">
               <folding />
             </state>
           </provider>
@@ -139,8 +139,8 @@
         <option value="$PROJECT_DIR$/views/appengine_config.py" />
         <option value="$PROJECT_DIR$/appengine_config.py" />
         <option value="$PROJECT_DIR$/views/app.py" />
-        <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/resources/css/playthis.css" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
       </list>
     </option>
   </component>
@@ -508,16 +508,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index.html">
+    <entry file="file://$PROJECT_DIR$/resources/css/playthis.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="0" selection-start="17785" selection-end="17785" vertical-scroll-proportion="-10.541667">
+        <state line="60" column="14" selection-start="741" selection-end="741" vertical-scroll-proportion="-9.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/css/playthis.css">
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="14" selection-start="741" selection-end="741" vertical-scroll-proportion="0.4041451">
+        <state line="57" column="73" selection-start="2572" selection-end="2572" vertical-scroll-proportion="0.7394366">
           <folding />
         </state>
       </provider>

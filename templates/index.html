@@ -39,6 +39,7 @@
             if ($('#searchsongs').val() === ''){
                 alert('you must enter a search term');
             }else{
+                $('input[type="submit"]').attr('disabled','disabled');
                 $('#spinner').toggle();
                 $.ajax({
                       type: 'POST',
@@ -54,6 +55,7 @@
                             parseSongs(songs.Result.Result,"#search_results",true);
                         }
                         updateRemaining(songs.Votes, songs.VoteTime, songs.Searches, songs.SearchTime);
+                        $('input[type="submit"]').removeAttr('disabled');
                       }
                 });
             }
