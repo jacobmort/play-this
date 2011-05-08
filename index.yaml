@@ -15,13 +15,4 @@ indexes:
   - name: votes
     direction: desc
   - name: time
-<<<<<<< HEAD
-=======
-
-- kind: Song
-  properties:
-  - name: votes
     direction: desc
-  - name: time
-    direction: desc
->>>>>>> UI
