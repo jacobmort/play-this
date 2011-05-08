@@ -83,7 +83,7 @@ def strip_tags(user_input):
     return ''.join(BeautifulSoup(user_input).findAll(text=True))
 
 def get_current_songs():
-    q = db.GqlQuery("SELECT * FROM Song order by votes DESC, time DESC")
+    q = db.GqlQuery("SELECT * FROM Song order by votes DESC, time ASC")
     songs = q.fetch(20)
     return songs
 
@@ -178,7 +178,7 @@ class GetNext(webapp.RequestHandler):
     def get(self):
         logging.info('headers:'+str(self.request.headers['Referer']))
 
-        q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
+        q = db.GqlQuery("SELECT * FROM Song order by votes DESC limit 1")
         song = q.fetch(1)
 
         if song:
@@ -203,13 +203,21 @@ class Refresh(webapp.RequestHandler):
         #resp = '{"Success":true,"Remain":'+str(remaining_time)+',"Result":'+ simplejson.dumps(jsonifySongs(songs)) +'}'
         self.response.out.write(resp)
 
+class SetCurrent(webapp.RequestHandler):
+    def get(self):
+        name = strip_tags(self.request.GET.get('name'))
+        artist = strip_tags(self.request.GET.get('artist'))
+        songid = strip_tags(self.request.GET.get('songid'))
+        
+    
         
 application = webapp.WSGIApplication(
                                      [('/', Home),
                                       ('/playthis', VoteAction),
                                      ('/searchthis', SearchSongs),
                                      ('/getnext',GetNext),
-                                     ('/refresh', Refresh)],
+                                     ('/refresh', Refresh),
+                                     ('/setcurrent',SetCurrent)],
                                      debug=True)
 def main():
     run_wsgi_app(application)

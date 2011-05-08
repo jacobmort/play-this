@@ -8,7 +8,7 @@ class Song(db.Model):
     artist = db.StringProperty(required=True)
     album = db.StringProperty(required=False)
     votes = db.IntegerProperty()
-    time = db.DateProperty(auto_now=True)
+    time = db.DateTimeProperty(auto_now=True)
     
     def jsonify(self):
         response = {"SongID" : str(self.id),
