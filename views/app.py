@@ -24,10 +24,10 @@ LAST_SEARCH_KEY = 'lastsearch'
 SEARCHES_PER_TICK = 5
 SEARCHES_KEY = "currentsearches"
 
+
 class TimeLeft:
     vote = MIN_BETWEEN_VOTES
     search = MIN_BETWEEN_SEARCHES
-
 
 def session_set_actions(session, time_constraint, action_constraint, time_key, action_key, refresh):
     now = datetime.now()
@@ -82,6 +82,11 @@ def get_time_left(session):
 def strip_tags(user_input):
     return ''.join(BeautifulSoup(user_input).findAll(text=True))
 
+def get_current_songs():
+    q = db.GqlQuery("SELECT * FROM Song order by votes DESC, time DESC")
+    songs = q.fetch(20)
+    return songs
+
 def return_json_data(Success, Votes, VoteTime, Searches, SearchTime, data):
     resp = '{"Success":'+Success\
                +',"Votes":'+str(Votes)\
@@ -100,8 +105,7 @@ class Home(webapp.RequestHandler):
 #                            album='album',
 #                            votes=0)
 #        song.put()
-        q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
-        songs = q.fetch(20)
+        songs = get_current_songs()
 
         session = get_current_session()
         session = session_set_actions(session, MIN_BETWEEN_VOTES, VOTES_PER_TICK, LAST_VOTE_KEY, VOTES_KEY, True)
@@ -132,8 +136,7 @@ class VoteAction(webapp.RequestHandler):
                 votes=1)
 
         song.put()
-        q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
-        songs = q.fetch(20)
+        songs = get_current_songs()
         session = get_current_session()
         time_left = get_time_left(session)
         resp = return_json_data('true',session[VOTES_KEY],time_left.vote,session[SEARCHES_KEY],time_left.search,jsonifySongs(songs))
@@ -191,8 +194,7 @@ class GetNext(webapp.RequestHandler):
 
 class Refresh(webapp.RequestHandler):
     def get(self):
-        q = db.GqlQuery("SELECT * FROM Song order by votes DESC")
-        songs = q.fetch(20)
+        songs = get_current_songs()
         session = get_current_session()
         session = session_set_actions(session, MIN_BETWEEN_VOTES, VOTES_PER_TICK, LAST_VOTE_KEY, VOTES_KEY, True)
         session = session_set_actions(session, MIN_BETWEEN_SEARCHES, SEARCHES_PER_TICK, LAST_SEARCH_KEY, SEARCHES_KEY, True)
