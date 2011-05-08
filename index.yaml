@@ -15,4 +15,10 @@ indexes:
   - name: votes
     direction: desc
   - name: time
+
+- kind: Song
+  properties:
+  - name: votes
+    direction: desc
+  - name: time
     direction: desc
