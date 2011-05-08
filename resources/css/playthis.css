@@ -9,18 +9,58 @@ body
     width:100%;
 }
 
+.topmenu{
+    line-height:22px;
+}
+
 #left-col {
     float:left;
     width:50%;
 }
+
+#left-col h2{
+    display:inline;
+}
 #right-col {
     float:left;
-    width:50%;
+    width:49%;
+    margin-left:1%;
+    
 }
-
+#right-col h2{
+    display:inline;
+    margin-left:10px;
+}
+#banner{
+    margin-left:20%;
+}
+#left-col h2{
+    margin-top:37px;
+}
 td.upboat {
 	cursor: pointer;
 }
+
+td.upboat img.opacity {
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+
+td.upboat img.opacity:hover {
+	opacity: 1;
+	filter: alpha(opacity=100);
+	}
+.tablecontainer{
+    margin-top:5px;
+}
+#searchbox{
+    display:inline;
+}
+
+#searchsongs{
+    width:40%;
+}
+
 .rounded-corner
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -69,4 +109,10 @@ td.upboat {
 .rounded-corner tbody tr:hover td
 {
 	background: #d0dafd;
+}
+
+#spinner{
+    position:absolute;
+    margin-left:20%;
+    display:none;
 }
