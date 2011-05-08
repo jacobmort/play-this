@@ -13,6 +13,14 @@ function getNextSong(){
             type: "GET",
             dataType: 'jsonp'
         });
+    }else{
+        song = Grooveshark.getCurrentSongStatus();
+        artist = song.song.artistName;
+        name = song.song.songName;
+        jQuery.ajax({
+            url: "http://hear-this.appspot.com/setcurrent?name="+name+"&artist="+artist,
+            type: "GET"
+        });
     }
 }
 
